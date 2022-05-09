@@ -16,7 +16,7 @@ def AdminDashboard(request):
     allPendinJobs = 0
     allCompletedJobs = 0
     if len(alljobs) != 0:
-        allPendinJobs = len(Jobs.objects.filter(is_approved=False, is_denied=False))
+        allPendinJobs = len(Jobs.objects.filter( is_denied=False))
         allCompletedJobs = len(Jobs.objects.filter(is_completed=True))
 
     context = {

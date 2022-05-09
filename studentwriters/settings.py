@@ -127,7 +127,7 @@ EMAIL_HOST = 'mail.goldlinebreeze.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'info@goldlinebreeze.com'
-EMAIL_HOST_PASSWORD = '9!U]hpy0$zMj'
+EMAIL_HOST_PASSWORD = 'Mukundijoe254'
 # sending email
 
 # Static files (CSS, JavaScript, Images)

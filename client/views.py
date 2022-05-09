@@ -11,10 +11,25 @@ import random
 
 # Create your views here.
 def LandingPage(request):
+    jobsPosted = Jobs.objects.all();
+    completedjobs = Jobs.objects.filter(is_completed = True);
+    freelancers = CustomUser.objects.filter(is_admin=False,is_super=False,is_client=False);
+    clients = CustomUser.objects.filter(is_client= True);
+    coverjob = Jobs.objects.filter( is_approved = True,is_denied = False,is_completed = False,is_regected =False,)[:2]
+    context = {
+        'jobs' : len(jobsPosted),
+        'completedJobs' : len(completedjobs),
+        'freelancers': len(freelancers),
+        'clients' : len(clients),
+        'noOfCoverJobs' : len(coverjob),
+        'coverJob': coverjob
+    }
     if request.user.is_authenticated:
         if request.user.is_admin:
             return redirect('admindashboard')
-    return render(request, 'landingpage.html')
+        elif request.user.is_client:
+            return redirect('dashboard')
+    return render(request, 'landingpage.html',context)
 
 def registration(request):
     if(request.user.is_authenticated):
@@ -85,11 +100,13 @@ def logoutClient(request):
 
 @login_required(login_url='login')
 def dashboard(request):
+    if not request.user.is_client:
+        return redirect('landingpage')
     jobs = request.user.jobs_set.all()
     number_of_pending_jobs = 0
     number_of_completed_jobs = 0
     orders = 0
-    number_of_jobs = len(jobs)
+    number_of_jobs = len(jobs) 
     if number_of_jobs != 0:
         completed_jobs = request.user.jobs_set.filter(is_completed=True, )
         pending_jobs = request.user.jobs_set.filter(is_completed=False, is_regected=False)
